@@ -1,9 +1,7 @@
-import { initialFriends } from "./data";
+/* eslint-disable react/prop-types */
 import Friend from "./Friend";
 
-function FriendsList() {
-  const friends = initialFriends;
-
+function FriendsList({ friends }) {
   return (
     <div className="sidebar">
       <ul>
