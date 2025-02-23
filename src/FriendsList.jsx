@@ -1,15 +1,17 @@
 /* eslint-disable react/prop-types */
 import Friend from "./Friend";
 
-function FriendsList({ friends }) {
+function FriendsList({ friends, onSelectFriend }) {
   return (
-    <div className="sidebar">
-      <ul>
-        {friends.map((friend) => (
-          <Friend key={friend.id} friend={friend} />
-        ))}
-      </ul>
-    </div>
+    <ul>
+      {friends.map((friend) => (
+        <Friend
+          key={friend.id}
+          friend={friend}
+          onSelectFriend={onSelectFriend}
+        />
+      ))}
+    </ul>
   );
 }
 export default FriendsList;

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Button from "./Button";
 
-function AddFriend({ onAddFriend, setShowForm }) {
+function AddFriend({ onAddFriend }) {
   const [name, setName] = useState("");
   const [image, setImage] = useState("https://i.pravatar.cc/48");
 
@@ -12,33 +12,30 @@ function AddFriend({ onAddFriend, setShowForm }) {
     if (!name || !image) return;
 
     const id = crypto.randomUUID();
-    const newFriend = { id, name, image, balance: 0 };
+    const newFriend = { id, name, image: `${image}?=${id}`, balance: 0 };
     onAddFriend(newFriend);
 
-    setShowForm(false);
+    setName("");
+    setImage("https://i.pravatar.cc/48");
   };
 
   return (
-    <form>
-      <div className="form-add-friend">
-        <p>
-          <label>🧑‍🤝‍🧑Friend Name</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </p>
-        <p>
-          <label>🧑‍🤝‍🧑Image URL</label>
-          <input
-            type="text"
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
-          />
-        </p>
-        <Button onClick={handleAddFriend}>Add</Button>
-      </div>
+    <form className="form-add-friend" onSubmit={handleAddFriend}>
+      <label>🧑‍🤝‍🧑Friend Name</label>
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+
+      <label>🧑‍🤝‍🧑Image URL</label>
+      <input
+        type="text"
+        value={image}
+        onChange={(e) => setImage(e.target.value)}
+      />
+
+      <Button>Add</Button>
     </form>
   );
 }

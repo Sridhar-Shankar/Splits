@@ -1,5 +1,7 @@
+import Button from "./Button";
+
 /* eslint-disable react/prop-types */
-function Friend({ friend }) {
+function Friend({ friend, onSelectFriend }) {
   return (
     <li>
       <img src={friend.image} />
@@ -15,7 +17,7 @@ function Friend({ friend }) {
         </p>
       )}
       {friend.balance === 0 && <p>You and {friend.name} are even</p>}
-      <button className="button">Select</button>
+      <Button onClick={() => onSelectFriend(friend)}>Select</Button>
     </li>
   );
 }
