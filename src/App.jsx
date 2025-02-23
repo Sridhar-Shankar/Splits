@@ -22,13 +22,31 @@ function App() {
   };
 
   const handleSelectFriend = (friend) => {
-    setSelectedFriend(friend);
+    // setSelectedFriend(friend);
+
+    //selected is prevState
+    setSelectedFriend((cur) => (cur?.id === friend.id ? null : friend));
+    setShowForm(false);
+  };
+
+  const handleSplitBill = (value) => {
+    setFriends((friends) =>
+      friends.map((friend) =>
+        friend.id === selectedFriend.id
+          ? { ...friend, balance: friend.balance + value }
+          : friend
+      )
+    );
   };
 
   return (
     <div className="app">
       <div className="sidebar">
-        <FriendsList friends={friends} onSelectFriend={handleSelectFriend} />
+        <FriendsList
+          friends={friends}
+          selectedFriend={selectedFriend}
+          onSelectFriend={handleSelectFriend}
+        />
 
         {showForm && <AddFriend onAddFriend={handleNewFriend} />}
 
@@ -37,7 +55,12 @@ function App() {
         </Button>
       </div>
 
-      {selectedFriend && <BillSplitting selectedFriend={selectedFriend} />}
+      {selectedFriend && (
+        <BillSplitting
+          onSplitBill={handleSplitBill}
+          selectedFriend={selectedFriend}
+        />
+      )}
     </div>
   );
 }

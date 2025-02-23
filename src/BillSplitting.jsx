@@ -2,16 +2,19 @@
 import { useState } from "react";
 import Button from "./Button";
 
-function BillSplitting({ selectedFriend }) {
+function BillSplitting({ selectedFriend, onSplitBill }) {
   const [billValue, setBillvalue] = useState("");
   const [paidByYou, setPaidByYou] = useState("");
-  const [whoPaid, setWhoPaid] = useState("You");
+  const [whoPaid, setWhoPaid] = useState("user");
 
-  const paidByFriend = billValue > 0 ? billValue - paidByYou : "";
+  const paidByFriend = billValue ? billValue - paidByYou : "";
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("spliting bill");
+
+    if (!billValue || !paidByYou) return;
+
+    onSplitBill(whoPaid === "user" ? paidByFriend : -paidByYou);
   };
 
   return (
@@ -30,16 +33,20 @@ function BillSplitting({ selectedFriend }) {
       <input
         value={paidByYou}
         onChange={(e) => {
-          setPaidByYou(Number(e.target.value));
+          setPaidByYou(
+            Number(e.target.value) > billValue
+              ? paidByYou
+              : Number(e.target.value)
+          );
         }}
       />
 
-      <label>🧑‍🤝‍🧑{selectedFriend.name} expense</label>
+      <label>🧑‍🤝‍🧑{selectedFriend.name}&apos;s expense</label>
       <input value={paidByFriend} disabled />
 
       <label>👯‍♀️Who is paying the bill?</label>
       <select value={whoPaid} onChange={(e) => setWhoPaid(e.target.value)}>
-        <option value="You">You</option>
+        <option value="user">You</option>
         <option value="friend">{selectedFriend.name}</option>
       </select>
 
